@@ -1,7 +1,12 @@
+const Searches = require('./models/searches');
 const { inquirerMenu, StopMenu, readInputUser } = require('./helpers/inquirer');
 
 const main = async () => {
  let selectedOptionUser = '';
+
+ const searchesCities = new Searches();
+
+ searchesCities.findCity('Madrid');
 
  do {
   selectedOptionUser = await inquirerMenu();
