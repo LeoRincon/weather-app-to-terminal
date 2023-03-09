@@ -6,15 +6,22 @@ const main = async () => {
 
  const searchesCities = new Searches();
 
- searchesCities.findCity('Madrid');
-
  do {
   selectedOptionUser = await inquirerMenu();
 
   switch (selectedOptionUser) {
    case 1:
-    const city = await readInputUser('City: ');
-    console.log({ city });
+    const city = await readInputUser('City: '.cyan);
+    const cities = await searchesCities.findCity(city);
+
+    console.log('\n ===== City found: ===== \n'.green);
+    console.log('City: ');
+    console.log('Lat: ');
+    console.log('Lng: ');
+    console.log('Temperature: ');
+    console.log('Minimum: ');
+    console.log('Maximum: ');
+
     break;
    case 2:
     console.log('View history', { selectedOptionUser });
