@@ -20,10 +20,12 @@ class Searches {
    });
 
    const res = await instance.get(`/geocoding/v5/mapbox.places/${city}.json`);
-
-   console.log(res.data);
-
-   return []; // Todo return cities
+   return res.data.features.map((place) => ({
+    id: place.id,
+    name: place.place_name,
+    lng: place.center[0],
+    lat: place.center[1],
+   }));
   } catch (error) {
    console.log(error);
   }
