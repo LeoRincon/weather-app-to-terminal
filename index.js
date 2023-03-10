@@ -21,14 +21,17 @@ const main = async () => {
     const cities = await searchesCities.findCity(city);
 
     const idSelectedCity = await listPlaces(cities);
+    if (idSelectedCity === '0') continue;
 
     const selectedCity = cities.find((city) => city.id === idSelectedCity);
+
+    searchesCities.saveHistory(selectedCity.name);
 
     const weatherCity = await searchesCities.weatherCityByLatLon(
      selectedCity.lat,
      selectedCity.lng
     );
-    console.clear();
+    // console.clear();
     console.log('\n ===== City found: ===== \n'.green);
     console.log(`${'City: '.green}${selectedCity.name}`);
     console.log(`${'Lat: '.green}${selectedCity.lat}`);
@@ -39,7 +42,10 @@ const main = async () => {
 
     break;
    case 2:
-    console.log('View history', { selectedOptionUser });
+    await searchesCities.historyCapitalized.forEach((city, index) => {
+     const idx = `${index + 1}.`.green;
+     console.log(`${idx}: ${city}`);
+    });
     break;
 
    default:

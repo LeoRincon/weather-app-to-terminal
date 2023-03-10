@@ -1,13 +1,23 @@
+const fs = require('fs');
 const axios = require('axios');
 require('dotenv').config();
 
 class Searches {
- history = ['Madrid', 'Barcelona', 'Valencia', 'Malaga'];
+ history = [];
+ dbPath = './db/database.json';
 
  constructor() {
-  //TODO read DB if exists
+  this.readDB();
  }
 
+ get historyCapitalized() {
+  return this.history.map((city) => {
+   let words = city.split(' ');
+   words = words.map((word) => word[0].toUpperCase() + word.substring(1));
+
+   return words.join(' ');
+  });
+ }
  async findCity(city = '') {
   try {
    const instance = axios.create({
@@ -51,6 +61,33 @@ class Searches {
    console.log(error);
   }
  }
+
+ async saveHistory(city = '') {
+  console.log(city);
+  if (this.history.includes(city.toLocaleLowerCase())) return;
+
+  this.history = this.history.splice(0, 5);
+
+  this.history.unshift(city.toLocaleLowerCase());
+
+  //TODO save in DB
+  this.saveDB();
+ }
+
+ saveDB = () => {
+  const payload = {
+   history: this.history,
+  };
+
+  fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+ };
+
+ readDB = () => {
+  if (!fs.existsSync(this.dbPath)) return;
+  const informationDB = fs.readFileSync(this.dbPath, { encoding: 'utf-8' });
+  const data = JSON.parse(informationDB);
+  this.history = data.history;
+ };
 }
 
 module.exports = Searches;
