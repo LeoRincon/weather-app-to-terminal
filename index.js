@@ -31,7 +31,7 @@ const main = async () => {
      selectedCity.lat,
      selectedCity.lng
     );
-    // console.clear();
+    console.clear();
     console.log('\n ===== City found: ===== \n'.green);
     console.log(`${'City: '.green}${selectedCity.name}`);
     console.log(`${'Lat: '.green}${selectedCity.lat}`);
