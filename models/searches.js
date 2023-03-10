@@ -30,6 +30,27 @@ class Searches {
    console.log(error);
   }
  }
+
+ async weatherCityByLatLon(lat, lon) {
+  try {
+   const instance = axios.create({
+    baseURL: `https://api.openweathermap.org/data/2.5/weather`,
+    params: {
+     lat,
+     lon,
+     appid: process.env.OPENWEATHER_KEY,
+     units: 'metric',
+    },
+   });
+
+   const res = await instance.get();
+   const { main } = res.data;
+
+   return main;
+  } catch (error) {
+   console.log(error);
+  }
+ }
 }
 
 module.exports = Searches;
